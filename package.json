@@ -1,6 +1,6 @@
 {
   "name": "gaffa-flow",
-  "description": "An action for triggering other actions after a flow of UI actions occurs",
+  "description": "An action for triggering other actions after a flow of model events occurs",
   "author": "Kory Nunn <knunn187@gmail.com>",
   "version": "0.0.1",
   "main": "flow.js",
