@@ -13,8 +13,7 @@ function createNextStep(action, stepIndex){
         }
         action.gaffa.gedi.debind(callback);
     };
-
-    action.gaffa.bind(action.steps[stepIndex], action, );
+    action.gaffa.model.bind(action.steps[stepIndex], callback, action);
 }
 
 function Flow(actionDefinition){}
@@ -33,9 +32,8 @@ Flow.prototype.trigger = function(){
 
     var cancelCallback = function(){
         action.triggerActions('cancel');
-        action.debind();
     };
-    action.gaffa.bind(action.cancel.binding, action, cancelCallback);
+    action.gaffa.model.bind(action.cancel.binding, callback, action);
 };
 
 module.exports = Flow;
