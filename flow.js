@@ -5,13 +5,15 @@ var Gaffa = require('gaffa'),
 function createNextStep(action, stepIndex){
     stepIndex = stepIndex || 0;
 
-    var callback = function(){
-        if(++stepIndex<action.steps.length){
-            createNextStep(stepIndex);
-        }else{
-            action.triggerActions('complete');
+    var callback = function(event){
+        if(event.getValue()){
+            action.gaffa.gedi.debind(callback);
+            if(++stepIndex<action.steps.length){
+                createNextStep(stepIndex);
+            }else{
+                action.triggerActions('complete');
+            }
         }
-        action.gaffa.gedi.debind(callback);
     };
     action.gaffa.model.bind(action.steps[stepIndex], callback, action);
 }
@@ -19,6 +21,7 @@ function createNextStep(action, stepIndex){
 function Flow(actionDefinition){}
 Flow = Gaffa.createSpec(Flow, Gaffa.Action);
 Flow.prototype.type = 'flow';
+Flow.prototype.cancel = new Gaffa.Property();
 Flow.prototype.trigger = function(){
     this.__super__.trigger.apply(this, arguments);
 
@@ -30,10 +33,13 @@ Flow.prototype.trigger = function(){
 
     createNextStep(this);
 
-    var cancelCallback = function(){
-        action.triggerActions('cancel');
+    var cancelCallback = function(event){
+        if(event.getValue()){
+            action.triggerActions('cancel');
+            action.gaffa.gedi.debind(cancelCallback);
+        }
     };
-    action.gaffa.model.bind(action.cancel.binding, callback, action);
+    action.gaffa.model.bind(action.cancel.binding, cancelCallback, action);
 };
 
 module.exports = Flow;
