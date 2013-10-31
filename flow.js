@@ -1,6 +1,6 @@
 var Gaffa = require('gaffa'),
     doc = require('doc-js'),
-    crel = require('crel'),
+    crel = require('crel');
 
 function createNextStep(action, stepIndex){
     stepIndex = stepIndex || 0;

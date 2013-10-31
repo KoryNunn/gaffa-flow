@@ -1,0 +1,22 @@
+{
+  "name": "gaffa-flow",
+  "description": "An action for triggering other actions after a flow of UI actions occurs",
+  "author": "Kory Nunn <knunn187@gmail.com>",
+  "version": "0.0.1",
+  "main": "flow.js",
+  "dependencies": {
+    "gaffa":"x.x.x"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gaffa-tape/gaffa-flow.git"
+  },
+  "bugs": {
+    "url": "http://github.com/gaffa-tape/gaffa-flow/issues"
+  },
+  "keywords": [
+    "gaffa",
+    "flow"
+  ],
+  "license": "MIT"
+}
