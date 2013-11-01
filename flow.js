@@ -12,6 +12,7 @@ function createNextStep(action, stepIndex){
                 createNextStep(stepIndex);
             }else{
                 action.triggerActions('complete');
+                action.debind();
             }
         }
     };
@@ -36,7 +37,7 @@ Flow.prototype.trigger = function(){
     var cancelCallback = function(event){
         if(event.getValue()){
             action.triggerActions('cancel');
-            action.gaffa.gedi.debind(cancelCallback);
+            action.debind();
         }
     };
     action.gaffa.model.bind(action.cancel.binding, cancelCallback, action);
