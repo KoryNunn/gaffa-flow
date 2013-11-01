@@ -16,7 +16,8 @@ function createNextStep(action, stepIndex){
             }
         }
     };
-    action.gaffa.model.bind(action.steps[stepIndex], callback, action);
+    action.gediCallbacks.push(callback);
+    action.gaffa.gedi.bind(action.steps[stepIndex], callback, action);
 }
 
 function Flow(actionDefinition){}
@@ -27,6 +28,8 @@ Flow.prototype.trigger = function(){
     this.__super__.trigger.apply(this, arguments);
 
     var action = this;
+
+    action.gediCallbacks = action.gediCallbacks || [];
 
     if(!this.steps || !this.steps.length){
         return;
@@ -40,6 +43,7 @@ Flow.prototype.trigger = function(){
             action.debind();
         }
     };
+    action.gediCallbacks.push(cancelCallback);
     action.gaffa.model.bind(action.cancel.binding, cancelCallback, action);
 };
 
