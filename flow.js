@@ -44,7 +44,7 @@ Flow.prototype.trigger = function(){
         }
     };
     action.gediCallbacks.push(cancelCallback);
-    action.gaffa.model.bind(action.cancel.binding, cancelCallback);
+    action.gaffa.gedi.bind(action.cancel.binding, cancelCallback);
 };
 
 module.exports = Flow;
