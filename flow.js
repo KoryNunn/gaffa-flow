@@ -16,11 +16,13 @@ function createNextStep(action, stepIndex){
             }
         }
     };
-    action.gediCallbacks.push(callback);
+    action._flowBindings.push(callback);
     action.gaffa.gedi.bind(action.steps[stepIndex], callback);
 }
 
-function Flow(actionDefinition){}
+function Flow(actionDefinition){
+    this._flowBindings = [];
+}
 Flow = Gaffa.createSpec(Flow, Gaffa.Action);
 Flow.prototype.type = 'flow';
 Flow.prototype.cancel = new Gaffa.Property();
@@ -28,8 +30,6 @@ Flow.prototype.trigger = function(){
     this.__super__.trigger.apply(this, arguments);
 
     var action = this;
-
-    action.gediCallbacks = action.gediCallbacks || [];
 
     if(!this.steps || !this.steps.length){
         return;
@@ -44,9 +44,16 @@ Flow.prototype.trigger = function(){
                 action.debind();
             }
         };
-        action.gediCallbacks.push(cancelCallback);
+        action._flowBindings.push(cancelCallback);
         action.gaffa.gedi.bind(action.cancel.binding, cancelCallback);
     }
+};
+Flow.prototype.debind = function(){
+    var gedi = this.gaffa.gedi;
+    for(var i = 0; i < this._flowBindings.length; i++) {
+        gedi.debind(this._flowBindings[i]);
+    }
+    Gaffa.Action.prototype.debind.call(this);
 };
 
 module.exports = Flow;
