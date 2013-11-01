@@ -37,14 +37,16 @@ Flow.prototype.trigger = function(){
 
     createNextStep(this);
 
-    var cancelCallback = function(event){
-        if(event.getValue()){
-            action.triggerActions('cancel');
-            action.debind();
-        }
-    };
-    action.gediCallbacks.push(cancelCallback);
-    action.gaffa.gedi.bind(action.cancel.binding, cancelCallback);
+    if(action.cancel.binding){
+        var cancelCallback = function(event){
+            if(event.getValue()){
+                action.triggerActions('cancel');
+                action.debind();
+            }
+        };
+        action.gediCallbacks.push(cancelCallback);
+        action.gaffa.gedi.bind(action.cancel.binding, cancelCallback);
+    }
 };
 
 module.exports = Flow;
