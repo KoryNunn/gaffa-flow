@@ -17,7 +17,7 @@ function createNextStep(action, stepIndex){
         }
     };
     action.gediCallbacks.push(callback);
-    action.gaffa.gedi.bind(action.steps[stepIndex], callback, action);
+    action.gaffa.gedi.bind(action.steps[stepIndex], callback);
 }
 
 function Flow(actionDefinition){}
@@ -44,7 +44,7 @@ Flow.prototype.trigger = function(){
         }
     };
     action.gediCallbacks.push(cancelCallback);
-    action.gaffa.model.bind(action.cancel.binding, cancelCallback, action);
+    action.gaffa.model.bind(action.cancel.binding, cancelCallback);
 };
 
 module.exports = Flow;
