@@ -4,19 +4,20 @@
   "author": "Kory Nunn <knunn187@gmail.com>",
   "version": "0.0.8",
   "main": "flow.js",
-  "dependencies": {
-    "gaffa": "x.x.x"
+  "peerDependencies": {
+    "gaffa": "1.4.0"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/gaffa-tape/gaffa-flow.git"
+    "url": "https://github.com/KoryNunn/gaffa-flow.git"
   },
   "bugs": {
-    "url": "http://github.com/gaffa-tape/gaffa-flow/issues"
+    "url": "http://github.com/KoryNunn/gaffa-flow/issues"
   },
   "keywords": [
     "gaffa",
-    "flow"
+    "flow",
+    "action"
   ],
   "license": "MIT"
 }

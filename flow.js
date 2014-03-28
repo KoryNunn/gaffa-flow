@@ -1,17 +1,15 @@
-var Gaffa = require('gaffa'),
-    doc = require('doc-js'),
-    crel = require('crel');
+var Gaffa = require('gaffa');
 
-function createNextStep(action, stepIndex){
+function createNextStep(action, scope, event, stepIndex){
     stepIndex = stepIndex || 0;
 
     var callback = function(event){
         if(event.getValue()){
             action.gaffa.gedi.debind(callback);
             if(++stepIndex<action.steps.length){
-                createNextStep(stepIndex);
+                createNextStep(action, scope, event, stepIndex);
             }else{
-                action.triggerActions('complete');
+                action.triggerActions('complete', scope, event);
                 action.debind();
             }
         }
@@ -24,23 +22,21 @@ function Flow(actionDefinition){
     this._flowBindings = [];
 }
 Flow = Gaffa.createSpec(Flow, Gaffa.Action);
-Flow.prototype.type = 'flow';
+Flow.prototype._type = 'flow';
 Flow.prototype.cancel = new Gaffa.Property();
-Flow.prototype.trigger = function(){
-    this.__super__.trigger.apply(this, arguments);
-
+Flow.prototype.trigger = function(parent, scope, event){
     var action = this;
 
     if(!this.steps || !this.steps.length){
         return;
     }
 
-    createNextStep(this);
+    createNextStep(this, scope, event);
 
     if(action.cancel.binding){
         var cancelCallback = function(event){
             if(event.getValue()){
-                action.triggerActions('cancel');
+                action.triggerActions('cancel', scope, event);
                 action.debind();
             }
         };
