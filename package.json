@@ -2,7 +2,7 @@
   "name": "gaffa-flow",
   "description": "An action for triggering other actions after a flow of model events occurs",
   "author": "Kory Nunn <knunn187@gmail.com>",
-  "version": "0.0.8",
+  "version": "1.0.0",
   "main": "flow.js",
   "peerDependencies": {
     "gaffa": "1.4.0"
