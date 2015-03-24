@@ -5,7 +5,7 @@
   "version": "1.0.0",
   "main": "flow.js",
   "peerDependencies": {
-    "gaffa": "1.4.0"
+    "gaffa": "^1.4.0"
   },
   "repository": {
     "type": "git",
