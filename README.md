@@ -2,8 +2,6 @@
 
 flow action for gaffa
 
-basically parallel.
-
 ## Install:
 
     npm i gaffa-flow
@@ -18,7 +16,7 @@ basically parallel.
 
 ### cancel
 
-Binding the when changed to a truthy vallue will cancel the flow
+Binding that, when changed to a truthy value, cancels the flow.
 
 ## Properties !(instanceof Gaffa.Property)
 
@@ -26,7 +24,7 @@ Binding the when changed to a truthy vallue will cancel the flow
 
 A standard array of bindings that when evaluate to true will trigger the next step to be evaluated.
 
-Once all steps have evaluated to true the complete action will be triggered
+Once all steps have evaluated to true the success action will be triggered
 
 
 ## Example
@@ -38,7 +36,7 @@ Once all steps have evaluated to true the complete action will be triggered
         '[/bar]'
     ];
 
-    flow.actions.complete[someAction];
+    flow.actions.success[someAction];
 
     // Step 1
     gaffa.model.set('[/foo]', true);

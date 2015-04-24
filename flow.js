@@ -3,19 +3,21 @@ var Gaffa = require('gaffa');
 function createNextStep(action, scope, event, stepIndex){
     stepIndex = stepIndex || 0;
 
-    var callback = function(event){
-        if(event.getValue()){
-            action.gaffa.gedi.debind(callback);
+    function checkStep(){
+        if(action.gaffa.gedi.get(action.steps[stepIndex], action.getPath(), scope)){
+            action.gaffa.gedi.debind(checkStep);
             if(++stepIndex<action.steps.length){
                 createNextStep(action, scope, event, stepIndex);
             }else{
-                action.triggerActions('complete', scope, event);
+                action.triggerActions('success', scope, event);
                 action.complete();
             }
         }
-    };
-    action._flowBindings.push(callback);
-    action.gaffa.gedi.bind(action.steps[stepIndex], callback, action.getPath());
+    }
+
+    action._flowBindings.push(checkStep);
+    action.gaffa.gedi.bind(action.steps[stepIndex], checkStep, action.getPath());
+    checkStep();
 }
 
 function Flow(){
@@ -35,14 +37,17 @@ Flow.prototype.trigger = function(parent, scope, event){
     createNextStep(this, scope, event);
 
     if(action.cancel.binding){
-        var cancelCallback = function(event){
-            if(event.getValue()){
+
+        function cancelCallback(){
+            if(action.gaffa.gedi.get(action.cancel.binding, action.getPath(), scope)){
+                action.gaffa.gedi.debind(cancelCallback);
                 action.triggerActions('cancel', scope, event);
                 action.complete();
             }
-        };
-        action._flowBindings.push(cancelCallback);
-        action.gaffa.gedi.bind(action.cancel.binding, cancelCallback, action.getPath());
+        }
+
+        action.gaffa.gedi.bind(action.steps[stepIndex], cancelCallback, action.getPath());
+        cancelCallback();
     }
 };
 Flow.prototype.debind = function(){
